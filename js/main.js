@@ -14,4 +14,4 @@ const getMaxCharLength = function (string, maxLength) {
 }
 
 getMaxCharLength('Some text', 140);
-getRandomNumber(1000, 100);
+getRandomNumber(0, 10);
