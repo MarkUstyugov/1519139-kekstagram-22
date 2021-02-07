@@ -37,7 +37,7 @@ const NAMES = [
 
 const [jpg, svg] = ['.jpg', '.svg'];
 
-const getRandomNumber = function(min, max) {
+const getRandomNumber = function (min, max) {
   if (min < 0 || max < 0) {
     alert('Вы ввели отрицательное число. Допускаются только положительные числа.');
   } else if (min >= max) {
@@ -48,48 +48,44 @@ const getRandomNumber = function(min, max) {
   }
 };
 
-const getRandomArrayElement = function(elements) {
+const getRandomArrayElement = function (elements) {
   return elements[getRandomNumber(0, elements.length - 1)];
 };
 
-const getMaxCharLength = function(string, maxLength) {
-  return string.length <= maxLength ? true : false;
+const getMaxCharLength = function (string, maxLength) {
+  return string.length <= maxLength;
 };
 
-const createPhotoDescription = function() {
+const createPhotoDescription = function () {
   const array = new Array();
-  let uniqueId = 1;
-  for(let i = 0; i < PHOTO_DESCRIPTION_COUNT; i++) {
+  for (let i = 0; i < PHOTO_DESCRIPTION_COUNT; i++) {
     array[i] = {
-      id: uniqueId,
-      url: URL_PHOTO_PATH + uniqueId + jpg,
+      id: i + 1,
+      url: `${URL_PHOTO_PATH}${i + 1}${jpg}`,
       description: getRandomArrayElement(PHOTO_DESCRIPTION),
       likes: getRandomNumber(100, 250),
       comments: createComment(),
     }
-    uniqueId++;
   }
   return array;
 };
 
-const createComment = function() {
+const createComment = function () {
   const array = new Array();
-  let uniqueId = 1;
-  for(let i = 0; i < getRandomNumber(1, 10); i++) {
+  for (let i = 0; i < getRandomNumber(1, 10); i++) {
     array[i] = {
-      id: uniqueId,
-      avatar: AVATAR_PATH + getRandomNumber(1, 6) + svg,
+      id: i + 1,
+      avatar: `${AVATAR_PATH}${getRandomNumber(1, 6)}${svg}`,
       message: getRandomArrayElement(MESSAGES),
       name: getRandomArrayElement(NAMES),
     }
-    uniqueId++;
   }
   return array;
 };
 
 const photoDescreption = createPhotoDescription();
 photoDescreption;
-getMaxCharLength(1, 140);
+(getMaxCharLength('Some string', 140));
 
 // const createPhotoDescription = function() {
 //   return {
