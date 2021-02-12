@@ -64,5 +64,4 @@ const createComment = function () {
   return array;
 };
 
-const photoDescreption = createPhotoDescription();
-photoDescreption;
+export {createPhotoDescription};
