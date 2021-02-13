@@ -1,4 +1,3 @@
-import {createPhotoDescription} from './data.js';
+import { renderPictureList } from './picture-list.js';
 
-const photoDescreption = createPhotoDescription();
-photoDescreption;
+renderPictureList();
