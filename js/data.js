@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomArrayElement} from './util.js';
+import { getRandomNumber, getRandomArrayElement } from './util.js';
 
 const PHOTO_DESCRIPTION_COUNT = 25;
 const URL_PHOTO_PATH = 'photo/';
@@ -64,4 +64,4 @@ const createComment = function () {
   return array;
 };
 
-export {createPhotoDescription};
+export { createPhotoDescription };

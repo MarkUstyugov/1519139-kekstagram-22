@@ -19,4 +19,4 @@ const getMaxCharLength = function (string, maxLength) {
 
 (getMaxCharLength('Some string', 140));
 
-export {getRandomNumber, getRandomArrayElement};
+export { getRandomNumber, getRandomArrayElement };
