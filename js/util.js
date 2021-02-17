@@ -17,6 +17,14 @@ const getMaxCharLength = function (string, maxLength) {
   return string.length <= maxLength;
 };
 
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
+
+const isEnterEvent = (evt) => {
+  return evt.key === 'Enter';
+};
+
 (getMaxCharLength('Some string', 140));
 
-export { getRandomNumber, getRandomArrayElement };
+export { getRandomNumber, getRandomArrayElement, isEscEvent,  isEnterEvent};
