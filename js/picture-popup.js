@@ -42,11 +42,13 @@ const renderBigPicture = () => {
         if (isEscEvent(evt)) {
           evt.preventDefault();
           bigPicture.classList.add('hidden');
+          body.classList.remove('modal-open');
         }
       });
 
       closeBigPicture.addEventListener('click', () => {
         bigPicture.classList.add('hidden');
+        body.classList.remove('modal-open');
       });
     });
   });

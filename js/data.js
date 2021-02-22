@@ -1,7 +1,7 @@
 import { getRandomNumber, getRandomArrayElement } from './util.js';
 
 const PHOTO_DESCRIPTION_COUNT = 25;
-const URL_PHOTO_PATH = 'photo/';
+const URL_PHOTO_PATH = 'photos/';
 const AVATAR_PATH = 'img/avatar-';
 
 const PHOTO_DESCRIPTION = [
