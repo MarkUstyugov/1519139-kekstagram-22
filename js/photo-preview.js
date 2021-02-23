@@ -18,6 +18,7 @@ const renderPicturePreview = function () {
 
   let scaleControlNumber = 0;
 
+  // Загрузка превью изображения
   downloadFileButton.addEventListener('change', () => {
     imgUploadOverlay.classList.remove('hidden');
     body.classList.add('modal-open');
@@ -29,6 +30,7 @@ const renderPicturePreview = function () {
     slider.style.display = 'none';
   });
 
+  // Очиста превью изображения
   const clearUploadPreview = () => {
     imgUploadOverlay.classList.add('hidden');
     body.classList.remove('modal-open');
@@ -50,6 +52,7 @@ const renderPicturePreview = function () {
     }
   });
 
+  // Изменение размера изображения
   scaleControlSmoller.addEventListener('click', () => {
     if (scaleControlNumber > 25 && scaleControlNumber <= 100) {
       scaleControlNumber -= 25;
@@ -64,6 +67,7 @@ const renderPicturePreview = function () {
       scaleControl.value = `${scaleControlNumber}${'%'}`;
       uploadPreview.style.transform = `scale(0.${scaleControlNumber})`;
       if (scaleControlNumber === 100) {
+        scaleControl.value = `${scaleControlNumber}${'%'}`;
         uploadPreview.style.transform = 'scale(1)';
       }
     }
@@ -111,7 +115,6 @@ const renderPicturePreview = function () {
         slider.noUiSlider.on('update', (values, handle) => {
           imgUplodPreview.style.filter = `grayscale(${values[handle]})`;
           currentFilterValue.value = `grayscale(${values[handle]})`;
-          console.log(currentFilterValue.value);
         });
       } else if (effectsRadioButtons[i].checked && effectsRadioButtons[i].value === 'sepia') {
         imgUplodPreview.style.filter = '';
@@ -130,7 +133,6 @@ const renderPicturePreview = function () {
         slider.noUiSlider.on('update', (values, handle) => {
           imgUplodPreview.style.filter = `sepia(${values[handle]})`;
           currentFilterValue.value = `sepia(${values[handle]})`;
-          console.log(currentFilterValue.value);
         });
       } else if (effectsRadioButtons[i].checked && effectsRadioButtons[i].value === 'none') {
         imgUplodPreview.style.filter = '';
@@ -154,7 +156,6 @@ const renderPicturePreview = function () {
         slider.noUiSlider.on('update', (values, handle) => {
           imgUplodPreview.style.filter = `brightness(${values[handle]})`;
           currentFilterValue.value = `brightness(${values[handle]})`;
-          console.log(currentFilterValue.value);
         });
       } else if (effectsRadioButtons[i].checked && effectsRadioButtons[i].value === 'phobos') {
         imgUplodPreview.style.filter = '';
@@ -172,7 +173,6 @@ const renderPicturePreview = function () {
         slider.noUiSlider.on('update', (values, handle) => {
           imgUplodPreview.style.filter = `blur(${values[handle]}px)`;
           currentFilterValue.value = `blur(${values[handle]}px)`;
-          console.log(currentFilterValue.value);
         });
       }
       else if (effectsRadioButtons[i].checked && effectsRadioButtons[i].value === 'marvin') {
@@ -192,7 +192,6 @@ const renderPicturePreview = function () {
         slider.noUiSlider.on('update', (values, handle) => {
           imgUplodPreview.style.filter = `invert(${values[handle]}%)`;
           currentFilterValue.value = `invert(${values[handle]}%)`;
-          console.log(currentFilterValue.value);
         });
       }
     });
