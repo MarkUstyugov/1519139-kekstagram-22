@@ -99,18 +99,19 @@ const renderPicturePreview = () => {
   // Слайдер - применение эфектов
   for (let i = 0; i < effectsRadioButtons.length; i++) {
     effectsRadioButtons[i].addEventListener('change', (evt) => {
-      if (evt.target.value === 'none') {
-        applyNoneEffect();
-      } else if (evt.target.value === 'sepia') {
-        applySepiaEffect();
-      } else if (evt.target.value === 'chrome') {
-        applyChromeEffect();
-      } else if (evt.target.value === 'heat') {
-        applyHeatEffect();
-      } else if (evt.target.value === 'phobos') {
-        applyPhobosEffect();
-      } else if (evt.target.value === 'marvin') {
-        applyMarvinEffect();
+      switch (evt.target.value) {
+        case 'chrome':
+          return applyChromeEffect();
+        case 'sepia':
+          return applySepiaEffect();
+        case 'marvin':
+          return applyMarvinEffect();
+        case 'phobos':
+          return applyPhobosEffect();
+        case 'heat':
+          return applyHeatEffect();
+        default:
+          return applyNoneEffect();
       }
     });
   }
