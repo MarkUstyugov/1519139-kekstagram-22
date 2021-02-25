@@ -1,7 +1,7 @@
 import { getRandomNumber, getRandomArrayElement } from './util.js';
 
 const PHOTO_DESCRIPTION_COUNT = 25;
-const URL_PHOTO_PATH = 'photo/';
+const URL_PHOTO_PATH = 'photos/';
 const AVATAR_PATH = 'img/avatar-';
 
 const PHOTO_DESCRIPTION = [
@@ -37,7 +37,7 @@ const NAMES = [
 
 const [jpg, svg] = ['.jpg', '.svg'];
 
-const createPhotoDescription = function () {
+const createPhotoDescription = () => {
   const array = new Array();
   for (let i = 0; i < PHOTO_DESCRIPTION_COUNT; i++) {
     array[i] = {
@@ -51,7 +51,7 @@ const createPhotoDescription = function () {
   return array;
 };
 
-const createComment = function () {
+const createComment = () => {
   const array = new Array();
   for (let i = 0; i < getRandomNumber(1, 10); i++) {
     array[i] = {

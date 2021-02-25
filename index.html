@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="nouislider/nouislider.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кекстаграм</title>
 </head>
@@ -32,7 +33,7 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data"
+          <form class="img-upload__form" id="upload-select-image" action="https://22.javascript.pages.academy/kekstagram" method="post" enctype="multipart/form-data"
             autocomplete="off">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
@@ -121,6 +122,7 @@
                       </label>
                     </li>
                   </ul>
+                  <input type="hidden" name="current-filter" value="none">
                 </fieldset>
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
@@ -223,7 +225,7 @@
     </a>
   </template>
 
-  <!-- Мой шаблон -->
+  <!-- Мой шаблон комментариев -->
   <template id="comment">
     <li class="social__comment">
       <img class="social__picture" src="" alt="" width="35" height="35">
@@ -257,6 +259,7 @@
   </template>
 
   <script src="js/main.js" type="module" defer></script>
+  <script src="nouislider/nouislider.js"></script>
 </body>
 
 </html>
