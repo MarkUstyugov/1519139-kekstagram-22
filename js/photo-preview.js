@@ -1,58 +1,70 @@
 import { isEscEvent } from './util.js';
+import { sendData } from './data.js';
+import { onSuccess, onFail } from './messages.js';
 
+const body = document.body;
+const downloadFileButton = document.querySelector('#upload-file');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const uploadCancelButton = document.querySelector('#upload-cancel');
+
+const uploadPreview = document.querySelector('.img-upload__preview');
+const imgUploadPreview = uploadPreview.querySelector('img');
+const scaleControl = document.querySelector('.scale__control--value');
+const scaleControlSmaller = document.querySelector('.scale__control--smaller');
+const scaleControlBigger = document.querySelector('.scale__control--bigger');
+const effectsRadioButtons = document.querySelectorAll('input[name=effect]');
+const slider = document.querySelector('.effect-level__slider');
+const currentFilterValue = document.querySelector('input[name=current-filter]');
+const photoPreviewForm = document.querySelector('.img-upload__form');
+const hashtag = document.querySelector('.text__hashtags');
+const desc = document.querySelector('.text__description');
+
+
+
+const SCALE_CONTROL_INITIAL_VALUE = 100;
+const SCALE_CONTROL_MIN = 25;
+const SCALE_CONTROL_MAX = 100;
+const SCALE_CONTROL_STEP = 25;
+
+let scaleControlNumber = null;
+
+// Функция показа превью изображения
+const onDownloadFileButtonChange = () => {
+  imgUploadOverlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  scaleControlNumber = SCALE_CONTROL_INITIAL_VALUE;
+  scaleControl.value = `${scaleControlNumber}%`;
+  imgUploadPreview.style.filter = '';
+  imgUploadPreview.className = 'effects__preview--none';
+  slider.style.display = 'none';
+  hashtag.value = '';
+  desc.value = '';
+  effectsRadioButtons[0].checked = true;
+
+  document.addEventListener('keydown', onPhotoPreviewEscKey);
+};
+
+const onPhotoPreviewEscKey = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    clearUploadPreview();
+  }
+};
+
+// Функция очистки превью изображения
+const clearUploadPreview = () => {
+  imgUploadOverlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+  downloadFileButton.value = '';
+  imgUploadPreview.className = '';
+  uploadPreview.style = '';
+
+  document.removeEventListener('keydown', onPhotoPreviewEscKey);
+};
+
+// Превью изображения
 const renderPicturePreview = () => {
-  const body = document.body;
-  const downloadFileButton = document.querySelector('#upload-file');
-  const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  const uploadCancelButton = document.querySelector('#upload-cancel');
-
-  const uploadPreview = document.querySelector('.img-upload__preview');
-  const imgUploadPreview = uploadPreview.querySelector('img');
-  const scaleControl = document.querySelector('.scale__control--value');
-  const scaleControlSmaller = document.querySelector('.scale__control--smaller');
-  const scaleControlBigger = document.querySelector('.scale__control--bigger');
-  const effectsRadioButtons = document.querySelectorAll('input[name=effect]');
-  const slider = document.querySelector('.effect-level__slider');
-  const currentFilterValue = document.querySelector('input[name=current-filter]');
-
-  const SCALE_CONTROL_INITIAL_VALUE = 100;
-  const SCALE_CONTROL_MIN = 25;
-  const SCALE_CONTROL_MAX = 100;
-  const SCALE_CONTROL_STEP = 25;
-
-  let scaleControlNumber = null;
-
   // Загрузка превью изображения
-  const onDownloadFileButtonChange = () => {
-    imgUploadOverlay.classList.remove('hidden');
-    body.classList.add('modal-open');
-    scaleControlNumber = SCALE_CONTROL_INITIAL_VALUE;
-    scaleControl.value = `${scaleControlNumber}%`;
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--none';
-    slider.style.display = 'none';
-
-    document.addEventListener('keydown', onPhotoPreviewEscKey);
-  };
-
-  const onPhotoPreviewEscKey = (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      clearUploadPreview();
-    }
-  };
-
-  // Очиста превью изображения
-  const clearUploadPreview = () => {
-    imgUploadOverlay.classList.add('hidden');
-    body.classList.remove('modal-open');
-    downloadFileButton.value = '';
-    imgUploadPreview.className = '';
-    uploadPreview.style = '';
-
-    document.removeEventListener('keydown', onPhotoPreviewEscKey)
-  };
-
   downloadFileButton.addEventListener('change', onDownloadFileButtonChange);
   uploadCancelButton.addEventListener('click', clearUploadPreview);
 
@@ -218,4 +230,17 @@ const renderPicturePreview = () => {
   }
 }
 
-export { renderPicturePreview };
+//Отправка данных на сервер
+const setUserFormSubmit = () => {
+  photoPreviewForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => onFail(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export { renderPicturePreview, setUserFormSubmit, clearUploadPreview };

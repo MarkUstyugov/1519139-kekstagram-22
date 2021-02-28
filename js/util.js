@@ -27,4 +27,4 @@ const isEnterEvent = (evt) => {
 
 (getMaxCharLength('Some string', 140));
 
-export { getRandomNumber, getRandomArrayElement, isEscEvent,  isEnterEvent};
+export { getRandomNumber, getRandomArrayElement, isEscEvent,  isEnterEvent };

@@ -1,7 +1,7 @@
-import { photosDescreption, renderComments } from './picture-list.js';
+import { renderComments } from './picture-list.js';
 import { isEscEvent } from './util.js';
 
-const renderBigPicture = () => {
+const renderBigPicture = (photosDescreption) => {
 
   const pictures = document.querySelector('.pictures');
   const bigPicture = document.querySelector('.big-picture');
@@ -36,7 +36,7 @@ const renderBigPicture = () => {
         socialCommentList.firstChild.remove();
       }
 
-      renderComments(index);
+      renderComments(index, photosDescreption);
 
       document.addEventListener('keydown', (evt) => {
         if (isEscEvent(evt)) {

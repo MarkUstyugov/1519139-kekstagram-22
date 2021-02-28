@@ -1,14 +1,10 @@
-import { createPhotoDescription } from './data.js';
-
-const photosDescreption = createPhotoDescription();
-
-const pictureList = document.querySelector('.pictures')
+const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const commentList = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
-const renderPictureList = () => {
+const renderPictureList = (photosDescreption) => {
   const pictureListFragment = document.createDocumentFragment();
 
   photosDescreption.forEach((description) => {
@@ -21,7 +17,7 @@ const renderPictureList = () => {
   pictureList.appendChild(pictureListFragment);
 };
 
-const renderComments = (index) => {
+const renderComments = (index, photosDescreption) => {
   const pictureListFragment = document.createDocumentFragment();
   for (let i = 0; i < photosDescreption[index].comments.length; i++) {
     const commentItem = commentTemplate.cloneNode(true);
@@ -33,4 +29,4 @@ const renderComments = (index) => {
   commentList.appendChild(pictureListFragment);
 };
 
-export { renderPictureList, photosDescreption, renderComments };
+export { renderPictureList, renderComments };
