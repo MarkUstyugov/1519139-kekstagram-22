@@ -1,17 +1,13 @@
-import { createPhotoDescription } from './data.js';
-
-const photosDescreption = createPhotoDescription();
-
-const pictureList = document.querySelector('.pictures')
+const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const commentList = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
-const renderPictureList = () => {
+const renderPictureList = (photosDescription) => {
   const pictureListFragment = document.createDocumentFragment();
 
-  photosDescreption.forEach((description) => {
+  photosDescription.forEach((description) => {
     const pictureItem = pictureTemplate.cloneNode(true);
     pictureItem.querySelector('.picture__img').src = description.url;
     pictureItem.querySelector('.picture__likes').textContent = description.likes;
@@ -21,16 +17,16 @@ const renderPictureList = () => {
   pictureList.appendChild(pictureListFragment);
 };
 
-const renderComments = (index) => {
+const renderComments = (index, photosDescription) => {
   const pictureListFragment = document.createDocumentFragment();
-  for (let i = 0; i < photosDescreption[index].comments.length; i++) {
+  for (let i = 0; i < photosDescription[index].comments.length; i++) {
     const commentItem = commentTemplate.cloneNode(true);
-    commentItem.querySelector('.social__text').textContent = photosDescreption[index].comments[i].message;
-    commentItem.querySelector('.social__picture').src = photosDescreption[index].comments[i].avatar;
-    commentItem.querySelector('.social__picture').alt = photosDescreption[index].comments[i].name;
+    commentItem.querySelector('.social__text').textContent = photosDescription[index].comments[i].message;
+    commentItem.querySelector('.social__picture').src = photosDescription[index].comments[i].avatar;
+    commentItem.querySelector('.social__picture').alt = photosDescription[index].comments[i].name;
     pictureListFragment.appendChild(commentItem);
   }
   commentList.appendChild(pictureListFragment);
 };
 
-export { renderPictureList, photosDescreption, renderComments };
+export { renderPictureList, renderComments };
