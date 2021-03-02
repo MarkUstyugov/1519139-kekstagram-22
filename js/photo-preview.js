@@ -19,8 +19,6 @@ const photoPreviewForm = document.querySelector('.img-upload__form');
 const hashtag = document.querySelector('.text__hashtags');
 const desc = document.querySelector('.text__description');
 
-
-
 const SCALE_CONTROL_INITIAL_VALUE = 100;
 const SCALE_CONTROL_MIN = 25;
 const SCALE_CONTROL_MAX = 100;
@@ -149,6 +147,7 @@ const renderPicturePreview = () => {
       start: 1,
       step: 0.1,
     });
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       imgUploadPreview.style.filter = `grayscale(${values[handle]})`;
       currentFilterValue.value = `grayscale(${values[handle]})`;
@@ -168,6 +167,7 @@ const renderPicturePreview = () => {
       start: 1,
       step: 0.1,
     });
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       imgUploadPreview.style.filter = `sepia(${values[handle]})`;
       currentFilterValue.value = `sepia(${values[handle]})`;
@@ -187,6 +187,7 @@ const renderPicturePreview = () => {
       start: 100,
       step: 1,
     });
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       imgUploadPreview.style.filter = `invert(${values[handle]}%)`;
       currentFilterValue.value = `invert(${values[handle]}%)`;
@@ -205,6 +206,7 @@ const renderPicturePreview = () => {
       start: 3,
       step: 0.1,
     });
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       imgUploadPreview.style.filter = `blur(${values[handle]}px)`;
       currentFilterValue.value = `blur(${values[handle]}px)`;
@@ -223,6 +225,7 @@ const renderPicturePreview = () => {
       start: 3,
       step: 0.1,
     });
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       imgUploadPreview.style.filter = `brightness(${values[handle]})`;
       currentFilterValue.value = `brightness(${values[handle]})`;

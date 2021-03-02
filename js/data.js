@@ -1,13 +1,23 @@
-const getData = (onSuccess => {
-  fetch('https://22.javascript.pages.academy/kekstagram/data')
-    .then((response) => response.json())
+const SERVER_GET_DATA = 'https://22.javascript.pages.academy/kekstagram/data';
+const SERVER_POST_DATA = 'https://22.javascript.pages.academy/kekstagram';
+
+const getData = ((onSuccess, onFail) => {
+  fetch(SERVER_GET_DATA)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
     .then((photos) => {
       onSuccess(photos);
+    })
+    .catch(() => {
+      onFail();
     });
 });
 
 const sendData = ((onSuccess, onFail, body) => {
-  fetch('https://22.javascript.pages.academy/kekstagram',
+  fetch(SERVER_POST_DATA,
     {
       method: 'POST',
       body,
@@ -24,6 +34,5 @@ const sendData = ((onSuccess, onFail, body) => {
       onFail();
     });
 });
-
 
 export { getData, sendData };

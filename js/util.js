@@ -1,30 +1,26 @@
-const getRandomNumber = function (min, max) {
-  if (min < 0 || max < 0) {
-    alert('Вы ввели отрицательное число. Допускаются только положительные числа.');
-  } else if (min >= max) {
-    alert('Минимальное число больше чем максимальное либо равно ему.');
-  } else {
-    let rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-  }
-};
-
-const getRandomArrayElement =  (elements) => {
-  return elements[getRandomNumber(0, elements.length - 1)];
-};
-
-const getMaxCharLength =  (string, maxLength) => {
-  return string.length <= maxLength;
-};
-
 const isEscEvent = (evt) => {
-  return evt.key === ('Escape' || 'Esc');
+  return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
 const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
-(getMaxCharLength('Some string', 140));
+const failGetDataFromServer = () => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
 
-export { getRandomNumber, getRandomArrayElement, isEscEvent,  isEnterEvent };
+  alertContainer.textContent = 'Сайт временно не работает по техническим причинам';
+
+  document.body.append(alertContainer);
+};
+
+export { isEscEvent, isEnterEvent, failGetDataFromServer };

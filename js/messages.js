@@ -8,46 +8,51 @@ const successButton = successMessage.querySelector('.success__button');
 const errorButton = errorMessage.querySelector('.error__button');
 
 // Удаление сообщений при нажатии ESC
-const deleteMessage = () => {
-  if (isEscEvent) {
-    successMessage.remove();
-    errorMessage.remove();
+const deleteMessage = (evt) => {
+  if (isEscEvent(evt)) {
+    closeMessage();
   }
 };
 
 // Удаление сообщений при клике вне его
 const onMouseOut = (evt) => {
-  let target = evt.target;
-  if (!target.closest('.success__button') && !target.closest('.error__button')) {
-    if (!target.closest('.success__inner') && !target.closest('.error__inner')) {
-      successMessage.remove();
-      errorMessage.remove();
-    }
+  const target = evt.target;
+  if (!target.closest('.success__inner, .error__inner')) {
+    closeMessage();
   }
 };
 
 // Сообщение при успешной отправке данных
 const onSuccess = () => {
   clearUploadPreview();
-  main.appendChild(successMessage);
-  document.addEventListener('keydown', deleteMessage);
-  successButton.addEventListener('click', () => {
-    successMessage.remove();
-  });
-
-  document.addEventListener('click', onMouseOut);
+  openMessageSuccess();
 };
 
 // Сообщение при неудачной оправке данных
 const onFail = () => {
-  main.appendChild(errorMessage);
   clearUploadPreview();
-  document.addEventListener('keydown', deleteMessage);
-  errorButton.addEventListener('click', () => {
-    errorMessage.remove();
-  });
-
-  document.addEventListener('click', onMouseOut);
+  openMessageError();
 };
+
+const openMessageError = () => {
+  main.appendChild(errorMessage);
+  document.addEventListener('keydown', deleteMessage);
+  document.addEventListener('click', onMouseOut);
+  errorButton.addEventListener('click', closeMessage);
+}
+
+const openMessageSuccess = () => {
+  main.appendChild(successMessage);
+  document.addEventListener('keydown', deleteMessage);
+  document.addEventListener('click', onMouseOut);
+  successButton.addEventListener('click', closeMessage);
+}
+
+const closeMessage = () => {
+  successMessage.remove();
+  errorMessage.remove();
+  document.removeEventListener('keydown', deleteMessage);
+  document.removeEventListener('click', onMouseOut);
+}
 
 export { onSuccess, onFail };
