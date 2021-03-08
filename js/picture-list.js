@@ -7,6 +7,8 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const commentList = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
+const RANDOM_PICTURES_AMOUNT = 10;
+
 // Получения количиства коментарием у фото
 const getCommentsAmount = (photo) => {
   return photo.comments.length;
@@ -66,7 +68,7 @@ const renderPictureListRandom = (photosDescription) => {
   const pictures = pictureList.querySelectorAll('.picture');
   clearPictureList(pictures);
 
-  const randomPictureList = shuffle(photosDescription.slice()).slice(0, 10);
+  const randomPictureList = shuffle(photosDescription.slice()).slice(0, RANDOM_PICTURES_AMOUNT);
 
   randomPictureList.forEach((description) => {
     const pictureItem = pictureTemplate.cloneNode(true);
