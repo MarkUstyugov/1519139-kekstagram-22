@@ -6,6 +6,15 @@ const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
+// Перемешивание массива
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 const failGetDataFromServer = () => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -23,4 +32,4 @@ const failGetDataFromServer = () => {
   document.body.append(alertContainer);
 };
 
-export { isEscEvent, isEnterEvent, failGetDataFromServer };
+export { isEscEvent, isEnterEvent, failGetDataFromServer, shuffle };
