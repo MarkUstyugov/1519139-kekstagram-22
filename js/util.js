@@ -32,4 +32,18 @@ const failGetDataFromServer = () => {
   document.body.append(alertContainer);
 };
 
-export { isEscEvent, isEnterEvent, failGetDataFromServer, shuffle };
+const debounce = (func, wait) => {
+  let timeout;
+
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+export { isEscEvent, isEnterEvent, failGetDataFromServer, shuffle, debounce };

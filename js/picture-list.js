@@ -16,10 +16,7 @@ const getCommentsAmount = (photo) => {
 
 // Сортировка по кол-во комментариев - убывание
 const sortCommentDescend = (pictureA, pictureB) => {
-  const a = getCommentsAmount(pictureA);
-  const b = getCommentsAmount(pictureB);
-
-  return b - a;
+  return getCommentsAmount(pictureB) - getCommentsAmount(pictureA);
 };
 
 // Очистка списка фотографий
@@ -29,7 +26,7 @@ const clearPictureList = (pictures) => {
   }
 };
 
-const renderPictureListDefault = (photosDescription) => {
+const renderPictureList = (photosDescription) => {
   const pictureListFragment = document.createDocumentFragment();
   const pictures = pictureList.querySelectorAll('.picture');
   clearPictureList(pictures);
@@ -46,39 +43,11 @@ const renderPictureListDefault = (photosDescription) => {
 };
 
 const renderPictureListDiscussed = (photosDescription) => {
-  const pictureListFragment = document.createDocumentFragment();
-  const pictures = pictureList.querySelectorAll('.picture');
-  clearPictureList(pictures);
-
-  const discussedPictureList = photosDescription.slice().sort(sortCommentDescend);
-
-  discussedPictureList.forEach((description) => {
-    const pictureItem = pictureTemplate.cloneNode(true);
-    pictureItem.querySelector('.picture__img').src = description.url;
-    pictureItem.querySelector('.picture__likes').textContent = description.likes;
-    pictureItem.querySelector('.picture__comments').textContent = description.comments.length;
-    pictureListFragment.appendChild(pictureItem);
-  });
-  pictureList.appendChild(pictureListFragment);
-  renderBigPicture(discussedPictureList);
+  renderPictureList(photosDescription.slice().sort(sortCommentDescend));
 };
 
 const renderPictureListRandom = (photosDescription) => {
-  const pictureListFragment = document.createDocumentFragment();
-  const pictures = pictureList.querySelectorAll('.picture');
-  clearPictureList(pictures);
-
-  const randomPictureList = shuffle(photosDescription.slice()).slice(0, RANDOM_PICTURES_AMOUNT);
-
-  randomPictureList.forEach((description) => {
-    const pictureItem = pictureTemplate.cloneNode(true);
-    pictureItem.querySelector('.picture__img').src = description.url;
-    pictureItem.querySelector('.picture__likes').textContent = description.likes;
-    pictureItem.querySelector('.picture__comments').textContent = description.comments.length;
-    pictureListFragment.appendChild(pictureItem);
-  });
-  pictureList.appendChild(pictureListFragment);
-  renderBigPicture(randomPictureList);
+  renderPictureList(shuffle(photosDescription.slice()).slice(0, RANDOM_PICTURES_AMOUNT));
 };
 
 const renderComments = (index, photosDescription) => {
@@ -94,4 +63,4 @@ const renderComments = (index, photosDescription) => {
   commentList.appendChild(pictureListFragment);
 };
 
-export { renderPictureListDefault, renderComments, renderPictureListDiscussed, renderPictureListRandom };
+export { renderPictureList, renderComments, renderPictureListDiscussed, renderPictureListRandom };
