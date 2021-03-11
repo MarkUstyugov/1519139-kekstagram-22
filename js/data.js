@@ -1,6 +1,6 @@
 import { loadFilter } from './filter.js';
 
-const SERVER_GET_DATA = 'https://22.javascript.pages.academy/kekstagram/data';
+const SERVER_GET_DATA = 'https://22.javascript.pages.academy/kekstagram/data1';
 const SERVER_POST_DATA = 'https://22.javascript.pages.academy/kekstagram';
 
 const getData = ((onSuccess, onFail) => {
@@ -9,13 +9,13 @@ const getData = ((onSuccess, onFail) => {
       if (response.ok) {
         return response.json();
       }
+      throw new Error('Ошибка получения данных с сервера');
     })
     .then((photos) => {
-      onSuccess(photos);
-      loadFilter();
+      onSuccess(photos, loadFilter());
     })
-    .catch(() => {
-      onFail();
+    .catch((error) => {
+      onFail(error);
     });
 });
 
@@ -28,13 +28,12 @@ const sendData = ((onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
-      } else {
-        onFail();
+        return onSuccess();
       }
+      throw new Error('Данные некорректны');
     })
-    .catch(() => {
-      onFail();
+    .catch((error) => {
+      onFail(error);
     });
 });
 

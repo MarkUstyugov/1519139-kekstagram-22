@@ -1,4 +1,3 @@
-// import { renderComments } from './picture-list.js';
 import { isEscEvent } from './util.js';
 
 const pictures = document.querySelector('.pictures');
@@ -10,6 +9,9 @@ const bigPictureComments = bigPicture.querySelector('.comments-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureSocialCommentCount = bigPicture.querySelector('.social__comment-count');
 const bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
+
+const commentList = document.querySelector('.social__comments');
+const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
 const closeBigPictureButton = bigPicture.querySelector('.big-picture__cancel');
 const socialCommentList = bigPicture.querySelector('.social__comments');
@@ -28,13 +30,6 @@ const closeBigPicture = () => {
   document.removeEventListener('keydown', onEscCloseBigPicture);
 }
 
-closeBigPictureButton.addEventListener('click', () => {
-  closeBigPicture();
-});
-
-
-const commentList = document.querySelector('.social__comments');
-const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const renderComments = (index, photosDescription) => {
   const pictureListFragment = document.createDocumentFragment();
   for (let i = 0; i < photosDescription[index].comments.length; i++) {
@@ -72,5 +67,9 @@ const renderBigPicture = (photosDescription) => {
     });
   });
 };
+
+closeBigPictureButton.addEventListener('click', () => {
+  closeBigPicture();
+});
 
 export { renderBigPicture };
