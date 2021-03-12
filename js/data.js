@@ -1,6 +1,4 @@
-import { loadFilter } from './filter.js';
-
-const SERVER_GET_DATA = 'https://22.javascript.pages.academy/kekstagram/data1';
+const SERVER_GET_DATA = 'https://22.javascript.pages.academy/kekstagram/data';
 const SERVER_POST_DATA = 'https://22.javascript.pages.academy/kekstagram';
 
 const getData = ((onSuccess, onFail) => {
@@ -11,12 +9,8 @@ const getData = ((onSuccess, onFail) => {
       }
       throw new Error('Ошибка получения данных с сервера');
     })
-    .then((photos) => {
-      onSuccess(photos, loadFilter());
-    })
-    .catch((error) => {
-      onFail(error);
-    });
+    .then(onSuccess)
+    .catch(onFail);
 });
 
 const sendData = ((onSuccess, onFail, body) => {

@@ -2,10 +2,6 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-const isEnterEvent = (evt) => {
-  return evt.key === 'Enter';
-};
-
 // Перемешивание массива
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -15,7 +11,7 @@ const shuffle = (array) => {
   return array;
 }
 
-const failGetDataFromServer = () => {
+const failGetDataFromServer = (error) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
@@ -27,7 +23,7 @@ const failGetDataFromServer = () => {
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
 
-  alertContainer.textContent = 'Сайт временно не работает по техническим причинам';
+  alertContainer.textContent = error.message || error;
 
   document.body.append(alertContainer);
 };
@@ -35,7 +31,7 @@ const failGetDataFromServer = () => {
 const debounce = (func, wait) => {
   let timeout;
 
-  return function executedFunction(...args) {
+  return  (...args) =>  {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
@@ -46,4 +42,4 @@ const debounce = (func, wait) => {
   };
 };
 
-export { isEscEvent, isEnterEvent, failGetDataFromServer, shuffle, debounce };
+export { isEscEvent, failGetDataFromServer, shuffle, debounce };

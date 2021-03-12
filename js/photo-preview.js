@@ -26,6 +26,51 @@ const SCALE_CONTROL_STEP = 25;
 
 let scaleControlNumber = null;
 
+const CHROME_EFFECT_OPTIONS = {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+};
+
+const SEPIA_EFFECT_OPTIONS = {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+}
+
+const MARVIN_EFFECT_OPTIONS = {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 100,
+  step: 1,
+};
+
+const PHOBOS_EFFECT_OPTIONS = {
+  range: {
+    min: 0,
+    max: 3,
+  },
+  start: 3,
+  step: 0.1,
+};
+
+const HEAT_EFFECT_OPTIONS = {
+  range: {
+    min: 1,
+    max: 3,
+  },
+  start: 3,
+  step: 0.1,
+}
+
 // Функция показа превью изображения
 const onDownloadFileButtonChange = () => {
   imgUploadOverlay.classList.remove('hidden');
@@ -60,7 +105,98 @@ const clearUploadPreview = () => {
   document.removeEventListener('keydown', onPhotoPreviewEscKey);
 };
 
-// Превью изображения
+// Слайдер
+window.noUiSlider.create(slider, {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+  connect: 'lower',
+  format: {
+    to: (value) => {
+      return value.toFixed(Number.isInteger(value) ? 0 : 1);
+    },
+    from: (value) => {
+      return parseFloat(value);
+    },
+  },
+});
+
+const applyEffect = (effectClassName, sliderOptions, handler) => {
+  imgUploadPreview.style.filter = '';
+  imgUploadPreview.className = effectClassName;
+  slider.style.display = 'block';
+
+  slider.noUiSlider.updateOptions(sliderOptions);
+  slider.noUiSlider.off('update');
+  slider.noUiSlider.on('update', handler);
+};
+
+const applyNoneEffect = () => {
+  imgUploadPreview.style.filter = '';
+  imgUploadPreview.className = 'effects__preview--none';
+  slider.style.display = 'none';
+  currentFilterValue.value = 'none';
+}
+
+const applyChromeEffect = () => {
+  applyEffect(
+    'effects__preview--chrome',
+    CHROME_EFFECT_OPTIONS,
+    (values, handle) => {
+      imgUploadPreview.style.filter = `grayscale(${values[handle]})`;
+      currentFilterValue.value = `grayscale(${values[handle]})`;
+    },
+  )
+};
+
+const applySepiaEffect = () => {
+  applyEffect(
+    'effects__preview--sepia',
+    SEPIA_EFFECT_OPTIONS,
+    (values, handle) => {
+      imgUploadPreview.style.filter = `sepia(${values[handle]})`;
+      currentFilterValue.value = `sepia(${values[handle]})`;
+    },
+  )
+};
+
+const applyMarvinEffect = () => {
+  applyEffect(
+    'effects__preview--marvin',
+    MARVIN_EFFECT_OPTIONS,
+    (values, handle) => {
+      imgUploadPreview.style.filter = `invert(${values[handle]}%)`;
+      currentFilterValue.value = `invert(${values[handle]})%`;
+    },
+  )
+};
+
+const applyPhobosEffect = () => {
+  applyEffect(
+    'effects__preview--phobos',
+    PHOBOS_EFFECT_OPTIONS,
+    (values, handle) => {
+      imgUploadPreview.style.filter = `blur(${values[handle]}px)`;
+      currentFilterValue.value = `blur(${values[handle]}px)`;
+    },
+  )
+};
+
+const applyHeatEffect = () => {
+  applyEffect(
+    'effects__preview--heat',
+    HEAT_EFFECT_OPTIONS,
+    (values, handle) => {
+      imgUploadPreview.style.filter = `brightness(${values[handle]})`;
+      currentFilterValue.value = `brightness(${values[handle]})`;
+    },
+  )
+};
+
+// Превью загруженного изображения
 const renderPicturePreview = () => {
   // Загрузка превью изображения
   downloadFileButton.addEventListener('change', onDownloadFileButtonChange);
@@ -87,25 +223,6 @@ const renderPicturePreview = () => {
     }
   });
 
-  // Слайдер
-  window.noUiSlider.create(slider, {
-    range: {
-      min: 0,
-      max: 1,
-    },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-    format: {
-      to: (value) => {
-        return value.toFixed(Number.isInteger(value) ? 0 : 1);
-      },
-      from: (value) => {
-        return parseFloat(value);
-      },
-    },
-  });
-
   // Слайдер - применение эфектов
   for (let i = 0; i < effectsRadioButtons.length; i++) {
     effectsRadioButtons[i].addEventListener('change', (evt) => {
@@ -125,112 +242,6 @@ const renderPicturePreview = () => {
       }
     });
   }
-
-  // Эффекты для слайдера
-  const applyNoneEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--none';
-    slider.style.display = 'none';
-    currentFilterValue.value = 'none';
-  }
-
-  const applyChromeEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--chrome';
-    slider.style.display = 'block';
-
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-    slider.noUiSlider.off('update');
-    slider.noUiSlider.on('update', (values, handle) => {
-      imgUploadPreview.style.filter = `grayscale(${values[handle]})`;
-      currentFilterValue.value = `grayscale(${values[handle]})`;
-    });
-  }
-
-  const applySepiaEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--sepia';
-    slider.style.display = 'block';
-
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-    slider.noUiSlider.off('update');
-    slider.noUiSlider.on('update', (values, handle) => {
-      imgUploadPreview.style.filter = `sepia(${values[handle]})`;
-      currentFilterValue.value = `sepia(${values[handle]})`;
-    });
-  }
-
-  const applyMarvinEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--marvin';
-    currentFilterValue.value = '';
-    slider.style.display = 'block';
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
-    slider.noUiSlider.off('update');
-    slider.noUiSlider.on('update', (values, handle) => {
-      imgUploadPreview.style.filter = `invert(${values[handle]}%)`;
-      currentFilterValue.value = `invert(${values[handle]}%)`;
-    });
-  }
-
-  const applyPhobosEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--phobos';
-    slider.style.display = 'block';
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
-    slider.noUiSlider.off('update');
-    slider.noUiSlider.on('update', (values, handle) => {
-      imgUploadPreview.style.filter = `blur(${values[handle]}px)`;
-      currentFilterValue.value = `blur(${values[handle]}px)`;
-    });
-  }
-
-  const applyHeatEffect = () => {
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.className = 'effects__preview--heat';
-    slider.style.display = 'block';
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
-    slider.noUiSlider.off('update');
-    slider.noUiSlider.on('update', (values, handle) => {
-      imgUploadPreview.style.filter = `brightness(${values[handle]})`;
-      currentFilterValue.value = `brightness(${values[handle]})`;
-    });
-  }
 }
 
 //Отправка данных на сервер
@@ -238,11 +249,7 @@ const setUserFormSubmit = () => {
   photoPreviewForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    sendData(
-      () => onSuccess(),
-      () => onFail(),
-      new FormData(evt.target),
-    );
+    sendData(onSuccess, onFail, new FormData(evt.target));
   });
 };
 
