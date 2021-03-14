@@ -7,13 +7,10 @@ const getData = ((onSuccess, onFail) => {
       if (response.ok) {
         return response.json();
       }
+      throw new Error('Ошибка получения данных с сервера');
     })
-    .then((photos) => {
-      onSuccess(photos);
-    })
-    .catch(() => {
-      onFail();
-    });
+    .then(onSuccess)
+    .catch(onFail);
 });
 
 const sendData = ((onSuccess, onFail, body) => {
@@ -25,13 +22,12 @@ const sendData = ((onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
-      } else {
-        onFail();
+        return onSuccess();
       }
+      throw new Error('Данные некорректны');
     })
-    .catch(() => {
-      onFail();
+    .catch((error) => {
+      onFail(error);
     });
 });
 
