@@ -4,6 +4,7 @@ import { getData } from './data.js';
 import { failGetDataFromServer } from './util.js';
 import { initDiscussedPhotosListener, initDefaultPhotosListener, initRandomPhotosListener } from './filter.js';
 import { loadFilter } from './filter.js';
+import { loadImage } from './load-image.js';
 
 getData(
   (photos) => {
@@ -18,3 +19,4 @@ getData(
 
 renderPicturePreview();
 setUserFormSubmit();
+loadImage();
