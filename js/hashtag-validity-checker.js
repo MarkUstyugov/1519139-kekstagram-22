@@ -7,29 +7,32 @@ let hashtagsArray = new Array();
 const hashtagErrorChecker = (inputArray) => {
   const arrayLength = inputArray.length;
 
-  let patternErrorCounter = 0;
-  let repeatedTagErrorCounter = 0;
-  let tagNumberErrorCounter = 0;
+  let patternErrorCounter = false;
+  let repeatedTagErrorCounter = false;
 
   inputArray.forEach((item, index, array) => {
     for (let i = index; i < (arrayLength - 1); i++) {
-      repeatedTagErrorCounter = (item === array[i + 1]) ? (repeatedTagErrorCounter + 1) : repeatedTagErrorCounter;
+      if (item === array[i + 1]) {
+        return repeatedTagErrorCounter = true;
+      }
     }
   });
 
-  if (repeatedTagErrorCounter > 0) {
+  if (repeatedTagErrorCounter) {
     return 'Хеш-теги не должны повторяться';
   }
 
-  tagNumberErrorCounter = (arrayLength > MAX_HASHTAG_NUMBER) ? ++tagNumberErrorCounter : tagNumberErrorCounter;
-  if (tagNumberErrorCounter > 0) {
+  if (arrayLength > MAX_HASHTAG_NUMBER) {
     return 'Максимальное кол-во хеш-тегов 5';
   }
 
   inputArray.forEach((item) => {
-    patternErrorCounter = (REGEXP.test(item)) ? patternErrorCounter : ++patternErrorCounter;
+    if (!REGEXP.test(item)) {
+      return patternErrorCounter = true;
+    }
   });
-  if (patternErrorCounter > 0) {
+
+  if (patternErrorCounter) {
     return 'Хэш-тег должен начинаться с символа #, без пробелов, содержать только цифры и буквы, и быть не более 20 символов';
   }
 
