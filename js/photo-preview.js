@@ -1,6 +1,8 @@
 import { isEscEvent } from './util.js';
 import { sendData } from './data.js';
 import { onSuccess, onFail } from './messages.js';
+import { hashtagValidityChecker } from './hashtag-validity-checker.js';
+import { commentValidityChecker } from './comment-validity-checker.js';
 
 const body = document.body;
 const downloadFileButton = document.querySelector('#upload-file');
@@ -14,10 +16,13 @@ const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const effectsRadioButtons = document.querySelectorAll('input[name=effect]');
 const slider = document.querySelector('.effect-level__slider');
-const currentFilterValue = document.querySelector('input[name=current-filter]');
+const currentFilterValue = document.querySelector('.effect-level__value');
 const photoPreviewForm = document.querySelector('.img-upload__form');
 const hashtag = document.querySelector('.text__hashtags');
 const desc = document.querySelector('.text__description');
+
+const hashtagInput = document.querySelector('.text__hashtags');
+const textArea = document.querySelector('.text__description');
 
 const SCALE_CONTROL_INITIAL_VALUE = 100;
 const SCALE_CONTROL_MIN = 25;
@@ -85,7 +90,16 @@ const onDownloadFileButtonChange = () => {
   effectsRadioButtons[0].checked = true;
 
   document.addEventListener('keydown', onPhotoPreviewEscKey);
+  hashtagInput.addEventListener('input', hashtagValidityChecker);
+  textArea.addEventListener('input', commentValidityChecker);
+
+  hashtagInput.addEventListener('keydown', stopPropagationOnEsc);
+  textArea.addEventListener('keydown', stopPropagationOnEsc);
 };
+
+const stopPropagationOnEsc = (evt) => {
+  if (isEscEvent(evt)) evt.stopPropagation();
+}
 
 const onPhotoPreviewEscKey = (evt) => {
   if (isEscEvent(evt)) {
@@ -103,6 +117,10 @@ const clearUploadPreview = () => {
   uploadPreview.style = '';
 
   document.removeEventListener('keydown', onPhotoPreviewEscKey);
+  hashtagInput.removeEventListener('input', hashtagValidityChecker);
+  textArea.removeEventListener('input', commentValidityChecker);
+  hashtagInput.removeEventListener('keydown', stopPropagationOnEsc);
+  textArea.removeEventListener('keydown', stopPropagationOnEsc);
 };
 
 // Слайдер
@@ -138,7 +156,7 @@ const applyNoneEffect = () => {
   imgUploadPreview.style.filter = '';
   imgUploadPreview.className = 'effects__preview--none';
   slider.style.display = 'none';
-  currentFilterValue.value = 'none';
+  currentFilterValue.value = '';
 }
 
 const applyChromeEffect = () => {
@@ -147,7 +165,7 @@ const applyChromeEffect = () => {
     CHROME_EFFECT_OPTIONS,
     (values, handle) => {
       imgUploadPreview.style.filter = `grayscale(${values[handle]})`;
-      currentFilterValue.value = `grayscale(${values[handle]})`;
+      currentFilterValue.value = values;
     },
   )
 };
@@ -158,7 +176,7 @@ const applySepiaEffect = () => {
     SEPIA_EFFECT_OPTIONS,
     (values, handle) => {
       imgUploadPreview.style.filter = `sepia(${values[handle]})`;
-      currentFilterValue.value = `sepia(${values[handle]})`;
+      currentFilterValue.value = values;
     },
   )
 };
@@ -169,7 +187,7 @@ const applyMarvinEffect = () => {
     MARVIN_EFFECT_OPTIONS,
     (values, handle) => {
       imgUploadPreview.style.filter = `invert(${values[handle]}%)`;
-      currentFilterValue.value = `invert(${values[handle]})%`;
+      currentFilterValue.value = values;
     },
   )
 };
@@ -180,7 +198,7 @@ const applyPhobosEffect = () => {
     PHOBOS_EFFECT_OPTIONS,
     (values, handle) => {
       imgUploadPreview.style.filter = `blur(${values[handle]}px)`;
-      currentFilterValue.value = `blur(${values[handle]}px)`;
+      currentFilterValue.value = values;
     },
   )
 };
@@ -191,7 +209,7 @@ const applyHeatEffect = () => {
     HEAT_EFFECT_OPTIONS,
     (values, handle) => {
       imgUploadPreview.style.filter = `brightness(${values[handle]})`;
-      currentFilterValue.value = `brightness(${values[handle]})`;
+      currentFilterValue.value = values;
     },
   )
 };

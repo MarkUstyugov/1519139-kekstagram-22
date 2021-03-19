@@ -38,7 +38,7 @@
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required accept="image/png, image/jpeg">
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
@@ -62,7 +62,7 @@
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
                   <fieldset class="img-upload__effect-level  effect-level">
-                    <input class="effect-level__value" type="number" name="effect-level" value="">
+                    <input class="effect-level__value" type="number" name="effect-level" step="any" value="">
                     <div class="effect-level__slider"></div>
                   </fieldset>
 
@@ -122,7 +122,6 @@
                       </label>
                     </li>
                   </ul>
-                  <input type="hidden" name="current-filter" value="none">
                 </fieldset>
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
