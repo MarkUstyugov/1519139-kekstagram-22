@@ -1,3 +1,5 @@
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
 import { isEscEvent } from './util.js';
 import { sendData } from './data.js';
 import { onSuccess, onFail } from './messages.js';
@@ -124,7 +126,7 @@ const clearUploadPreview = () => {
 };
 
 // Слайдер
-window.noUiSlider.create(slider, {
+noUiSlider.create(slider, {
   range: {
     min: 0,
     max: 1,
