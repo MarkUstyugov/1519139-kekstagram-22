@@ -4,11 +4,7 @@ const isEscEvent = (evt) => {
 
 // Перемешивание массива
 const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
+  return array.sort(() => Math.random() - 0.5);
 }
 
 const failGetDataFromServer = (error) => {
@@ -32,13 +28,13 @@ const debounce = (func, wait) => {
   let timeout;
 
   return  (...args) =>  {
-    const later = () => {
+    const doLater = () => {
       clearTimeout(timeout);
       func(...args);
     };
 
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    timeout = setTimeout(doLater, wait);
   };
 };
 

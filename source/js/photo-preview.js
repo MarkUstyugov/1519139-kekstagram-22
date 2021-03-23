@@ -3,8 +3,8 @@ import 'nouislider/distribute/nouislider.css';
 import { isEscEvent } from './util.js';
 import { sendData } from './data.js';
 import { onSuccess, onFail } from './messages.js';
-import { hashtagValidityChecker } from './hashtag-validity-checker.js';
-import { commentValidityChecker } from './comment-validity-checker.js';
+import { hashtagValidityCheckHandler } from './hashtag-validity-checker.js';
+import { commentValidityCheckHandler } from './comment-validity-checker.js';
 
 const body = document.body;
 const downloadFileButton = document.querySelector('#upload-file');
@@ -49,7 +49,7 @@ const SEPIA_EFFECT_OPTIONS = {
   },
   start: 1,
   step: 0.1,
-}
+};
 
 const MARVIN_EFFECT_OPTIONS = {
   range: {
@@ -76,10 +76,10 @@ const HEAT_EFFECT_OPTIONS = {
   },
   start: 3,
   step: 0.1,
-}
+};
 
 // Функция показа превью изображения
-const onDownloadFileButtonChange = () => {
+const downloadFileButtonChangeHandler = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   scaleControlNumber = SCALE_CONTROL_INITIAL_VALUE;
@@ -91,38 +91,40 @@ const onDownloadFileButtonChange = () => {
   desc.value = '';
   effectsRadioButtons[0].checked = true;
 
-  document.addEventListener('keydown', onPhotoPreviewEscKey);
-  hashtagInput.addEventListener('input', hashtagValidityChecker);
-  textArea.addEventListener('input', commentValidityChecker);
+  document.addEventListener('keydown', photoPreviewEscKeyHandler);
+  hashtagInput.addEventListener('input', hashtagValidityCheckHandler);
+  textArea.addEventListener('input', commentValidityCheckHandler);
 
-  hashtagInput.addEventListener('keydown', stopPropagationOnEsc);
-  textArea.addEventListener('keydown', stopPropagationOnEsc);
+  hashtagInput.addEventListener('keydown', inputStopPropagationOnEscHandler);
+  textArea.addEventListener('keydown', inputStopPropagationOnEscHandler);
 };
 
-const stopPropagationOnEsc = (evt) => {
-  if (isEscEvent(evt)) evt.stopPropagation();
-}
+const inputStopPropagationOnEscHandler = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.stopPropagation();
+  }
+};
 
-const onPhotoPreviewEscKey = (evt) => {
+const photoPreviewEscKeyHandler = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    clearUploadPreview();
+    uploadPreviewClearHandler();
   }
 };
 
 // Функция очистки превью изображения
-const clearUploadPreview = () => {
+const uploadPreviewClearHandler = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   downloadFileButton.value = '';
   imgUploadPreview.className = '';
   uploadPreview.style = '';
 
-  document.removeEventListener('keydown', onPhotoPreviewEscKey);
-  hashtagInput.removeEventListener('input', hashtagValidityChecker);
-  textArea.removeEventListener('input', commentValidityChecker);
-  hashtagInput.removeEventListener('keydown', stopPropagationOnEsc);
-  textArea.removeEventListener('keydown', stopPropagationOnEsc);
+  document.removeEventListener('keydown', photoPreviewEscKeyHandler);
+  hashtagInput.removeEventListener('input', hashtagValidityCheckHandler);
+  textArea.removeEventListener('input', commentValidityCheckHandler);
+  hashtagInput.removeEventListener('keydown', inputStopPropagationOnEscHandler);
+  textArea.removeEventListener('keydown', inputStopPropagationOnEscHandler);
 };
 
 // Слайдер
@@ -159,7 +161,7 @@ const applyNoneEffect = () => {
   imgUploadPreview.className = 'effects__preview--none';
   slider.style.display = 'none';
   currentFilterValue.value = '';
-}
+};
 
 const applyChromeEffect = () => {
   applyEffect(
@@ -219,8 +221,8 @@ const applyHeatEffect = () => {
 // Превью загруженного изображения
 const renderPicturePreview = () => {
   // Загрузка превью изображения
-  downloadFileButton.addEventListener('change', onDownloadFileButtonChange);
-  uploadCancelButton.addEventListener('click', clearUploadPreview);
+  downloadFileButton.addEventListener('change', downloadFileButtonChangeHandler);
+  uploadCancelButton.addEventListener('click', uploadPreviewClearHandler);
 
   // Изменение размера изображения
   scaleControlSmaller.addEventListener('click', () => {
@@ -244,8 +246,8 @@ const renderPicturePreview = () => {
   });
 
   // Слайдер - применение эфектов
-  for (let i = 0; i < effectsRadioButtons.length; i++) {
-    effectsRadioButtons[i].addEventListener('change', (evt) => {
+  effectsRadioButtons.forEach((item) => {
+    item.addEventListener('change', (evt) => {
       switch (evt.target.value) {
         case 'chrome':
           return applyChromeEffect();
@@ -261,8 +263,8 @@ const renderPicturePreview = () => {
           return applyNoneEffect();
       }
     });
-  }
-}
+  });
+};
 
 //Отправка данных на сервер
 const setUserFormSubmit = () => {
@@ -273,4 +275,4 @@ const setUserFormSubmit = () => {
   });
 };
 
-export { renderPicturePreview, setUserFormSubmit, clearUploadPreview };
+export { renderPicturePreview, setUserFormSubmit, uploadPreviewClearHandler };

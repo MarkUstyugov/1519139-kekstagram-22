@@ -1,7 +1,7 @@
 const MAX_COMMENT_LENGTH = 140;
 const textArea = document.querySelector('.text__description');
 
-const commentValidityChecker = (evt) => {
+const commentValidityCheckHandler = (evt) => {
   const textAreaValue = evt.target.value;
   const textAreaCurrentLength = textAreaValue.length;
 
@@ -14,5 +14,4 @@ const commentValidityChecker = (evt) => {
   textArea.reportValidity();
 }
 
-export { commentValidityChecker }
-
+export { commentValidityCheckHandler };

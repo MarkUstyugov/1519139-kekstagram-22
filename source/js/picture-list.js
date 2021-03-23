@@ -18,9 +18,9 @@ const sortCommentDescend = (pictureA, pictureB) => {
 
 // Очистка списка фотографий
 const clearPictureList = (pictures) => {
-  for (let i = 0; i < pictures.length; i++) {
-    pictures[i].outerHTML = '';
-  }
+  pictures.forEach((item) => {
+    item.outerHTML = '';
+  });
 };
 
 const renderPictureList = (photosDescription) => {

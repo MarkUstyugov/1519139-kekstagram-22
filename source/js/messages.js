@@ -1,5 +1,5 @@
 import { isEscEvent } from './util.js';
-import { clearUploadPreview } from './photo-preview.js';
+import { uploadPreviewClearHandler } from './photo-preview.js';
 
 const main = document.body.querySelector('main');
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
@@ -8,51 +8,51 @@ const successButton = successMessage.querySelector('.success__button');
 const errorButton = errorMessage.querySelector('.error__button');
 
 // Удаление сообщений при нажатии ESC
-const deleteMessage = (evt) => {
+const messageDeleteHandler = (evt) => {
   if (isEscEvent(evt)) {
-    closeMessage();
+    messageCloseHandler();
   }
 };
 
 // Удаление сообщений при клике вне его
-const onMouseOut = (evt) => {
+const mouseOutHandler = (evt) => {
   const target = evt.target;
   if (!target.closest('.success__inner, .error__inner')) {
-    closeMessage();
+    messageCloseHandler();
   }
 };
 
 // Сообщение при успешной отправке данных
 const onSuccess = () => {
-  clearUploadPreview();
+  uploadPreviewClearHandler();
   openMessageSuccess();
 };
 
 // Сообщение при неудачной оправке данных
 const onFail = () => {
-  clearUploadPreview();
+  uploadPreviewClearHandler();
   openMessageError();
 };
 
 const openMessageError = () => {
   main.appendChild(errorMessage);
-  document.addEventListener('keydown', deleteMessage);
-  document.addEventListener('click', onMouseOut);
-  errorButton.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', messageDeleteHandler);
+  document.addEventListener('click', mouseOutHandler);
+  errorButton.addEventListener('click', messageCloseHandler);
 }
 
 const openMessageSuccess = () => {
   main.appendChild(successMessage);
-  document.addEventListener('keydown', deleteMessage);
-  document.addEventListener('click', onMouseOut);
-  successButton.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', messageDeleteHandler);
+  document.addEventListener('click', mouseOutHandler);
+  successButton.addEventListener('click', messageCloseHandler);
 }
 
-const closeMessage = () => {
+const messageCloseHandler = () => {
   successMessage.remove();
   errorMessage.remove();
-  document.removeEventListener('keydown', deleteMessage);
-  document.removeEventListener('click', onMouseOut);
+  document.removeEventListener('keydown', messageDeleteHandler);
+  document.removeEventListener('click', mouseOutHandler);
 }
 
 export { onSuccess, onFail };

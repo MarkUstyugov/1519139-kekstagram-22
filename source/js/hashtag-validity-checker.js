@@ -21,7 +21,7 @@ const hashtagErrorChecker = (inputArray) => {
   return '';
 };
 
-const hashtagValidityChecker = (evt) => {
+const hashtagValidityCheckHandler = (evt) => {
   const hashValue = evt.target.value;
   const hashtagsArray = hashValue.split(' ');
   const errorMessage = hashtagErrorChecker(hashtagsArray);
@@ -37,5 +37,5 @@ const hashtagValidityChecker = (evt) => {
   hashtagInput.reportValidity();
 };
 
-export { hashtagValidityChecker };
+export { hashtagValidityCheckHandler };
 
